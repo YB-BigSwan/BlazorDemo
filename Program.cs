@@ -21,7 +21,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IFileUpload, FileUpload>();
 builder.Services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
 
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NBaF5cXmZCekx+WmFZfVpgdVdMY1pbRn5PIiBoS35RckVnWX5fcndTRGhbU0F2");
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("SyncFusionConnection");
 
 var app = builder.Build();
 
