@@ -1,0 +1,45 @@
+<div class="col-5 bg-light border m-4 p-4 rounded-3" @onclick="(args) => SelectedUpdated(args, Product.name)">
+    <h3 class="text-primary">Product @Product.id</h3>
+    <p><input type="checkbox" @onchange="FavoriteUpdated" /> Add to Favorites</p>
+    <p>Name: @Product.name</p>
+    <p>RF from Parent: @FragmentOne @FragmentTwo</p>
+    <p>Show Properties: <input type="checkbox" @bind="Product.isActive"></p>
+    @if (Product.isActive)
+    {
+        <p class="col">
+            @foreach (var property in Product.ProductProperties)
+            {
+                <li class="list-unstyled">@property.key: @property.value</li>
+            }
+        </p>
+    }
+    
+    <EditDeleteButtons isActive="Product.isActive" />
+</div>
+
+@code {
+    [Parameter]
+    public Product Product { get; set; }
+
+    [Parameter] public EventCallback<bool> OnFavoriteUpdated { get; set; }
+    
+    [Parameter]
+    public EventCallback<string> OnProductSelected { get; set; }
+
+    private async Task FavoriteUpdated(ChangeEventArgs e)
+    {
+        await OnFavoriteUpdated.InvokeAsync((bool)e.Value);
+    }
+
+    private async Task SelectedUpdated(MouseEventArgs e, string name)
+    {
+        await OnProductSelected.InvokeAsync(name);
+
+    }
+    
+    [Parameter]
+    public RenderFragment FragmentOne { get; set; }
+    
+    [Parameter]
+    public RenderFragment FragmentTwo { get; set; }
+}

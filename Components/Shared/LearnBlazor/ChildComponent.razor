@@ -1,0 +1,54 @@
+@inject IJSRuntime JsRuntime
+
+<div>
+    <div class="alert alert-info">@Title</div>
+    <div class="alert alert-success">
+    @if (DangerChildContent != null)
+    {
+        <span>@DangerChildContent</span><br/>
+    }
+    else
+    {
+        @if (ChildContent != null)
+        {
+            <span>@ChildContent</span>
+        }
+        else
+        {
+            <span>Hello, from empty render fragment</span>
+        }
+    }
+    </div>
+
+    <button class="btn btn-danger" @onclick="OnButtonClick">Show Message</button>
+    
+    <CascadingValue Value="MessageForChild" Name="CMessage">
+        <GrandchildComponent></GrandchildComponent>
+    </CascadingValue>
+
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+    
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    
+    [Parameter]
+    public RenderFragment DangerChildContent { get; set; }
+    
+    [Parameter]
+    public EventCallback OnButtonClick { get; set; }
+
+    public string MessageForChild = "This is a message from your parent (Child Component)";
+    
+    public async Task ToastrSuccess()
+    {
+        await JsRuntime.ToastrSuccess("Operation successful");
+    }
+    public async Task ToastrError()
+    {
+        await JsRuntime.ToastrError("Operation failed");
+    }
+}

@@ -1,0 +1,13 @@
+@if (isActive)
+{
+    <div class="btn-group gap-1">
+        <button class="btn-danger col-10 p-1 rounded-pill">Delete</button>
+        <button class="btn-success col-10 p-1 rounded-pill">Edit</button>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public bool isActive { get; set; }
+}

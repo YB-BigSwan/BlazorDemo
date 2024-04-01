@@ -1,0 +1,36 @@
+@page "/learnBlazor/parentComponent"
+@rendermode InteractiveServer
+
+<PageTitle>Parent Child Relation</PageTitle>
+<h1>Parent Child Relation</h1>
+
+<CascadingValue Value="@MessageForGrandchild" name="GpMessage">
+    <CascadingValue Value="@LuckyNumber" Name="LuckyNumber">
+        <ChildComponent @ref="childComp" OnButtonClick="ShowMessage" Title="This title is passed as a parameter from Parent Component">
+
+            <ChildContent>This is a render fragment from the parent component</ChildContent>
+            <DangerChildContent>Danger content from render fragment</DangerChildContent>
+
+        </ChildComponent>
+    </CascadingValue>
+</CascadingValue>
+
+<p><b>@messageText</b></p>
+<SecondChildComponent placeholder="Placeholder from parent"></SecondChildComponent>
+
+<div class="row">
+    <button class="btn btn-primary col-2 m-2" @onclick="() => childComp.ToastrSuccess()" >Show Toastr</button>
+</div>
+@code {
+    private ChildComponent childComp;
+    
+    public string MessageForGrandchild = "This is a message from your Grandparent (ParentComponent)";
+    public int LuckyNumber = 7;
+    
+    public string messageText = "";
+
+    private void ShowMessage()
+    {
+        messageText = "Button clicked from child component";
+    }
+}

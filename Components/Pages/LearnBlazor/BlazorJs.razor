@@ -1,0 +1,56 @@
+@page "/learnBlazor/blazorJs"
+@using BlazorDemo.Helper
+@rendermode InteractiveServer
+@inject IJSRuntime JsRuntime
+
+<PageTitle>Blazor Javascript</PageTitle>
+<h1>Blazor JavaScript</h1>
+
+<div class="row gap-1">
+    <button class="btn btn-secondary col-3" @onclick="TestConfirmBox">Test Confirm Box</button>
+</div>
+<p class="pt-2">Confirm Box Result: @ConfirmResult</p>
+
+<div class="row gap-1 mb-2">
+    <button class="btn btn-success col-3" @onclick="ToastrSuccess">Toastr Success</button>
+    <button class="btn btn-danger col-3" @onclick="ToastrError">Toastr Error</button>
+</div>
+<div class="row gap-1">
+    <button class="btn btn-success col-3" @onclick="SweetAlertSuccess">SweetAlert Success</button>
+    <button class="btn btn-danger col-3" @onclick="SweetAlertError">SweetAlert Error</button>
+</div>
+
+
+@code {
+
+    private string ConfirmMessage = "Are you sure you want to click?";
+    private bool ConfirmResult { get; set; }
+    private string SuccessMessage = "This is a successful message";
+    private string ErrorMessage = "This is an error message";
+
+    private async Task TestConfirmBox()
+    {
+        ConfirmResult = await JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
+    }
+    
+    private async Task ToastrSuccess()
+    {
+        await JsRuntime.ToastrSuccess(SuccessMessage);
+    }
+    private async Task ToastrError()
+    {
+        await JsRuntime.ToastrError(ErrorMessage);
+    }
+
+    private async Task SweetAlertSuccess()
+    {
+        await JsRuntime.SweetAlertSuccess("Great!", SuccessMessage);
+    }
+    
+    private async Task SweetAlertError()
+    {
+        await JsRuntime.SweetAlertError("Oh no!", ErrorMessage);
+    }
+    
+    
+}

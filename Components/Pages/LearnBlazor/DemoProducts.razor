@@ -1,0 +1,104 @@
+@page "/learnBlazor/demoProducts"
+@rendermode InteractiveServer
+
+<PageTitle>Demo Products</PageTitle>
+<h1>DemoProducts</h1>
+<p>Products Favorited: @SelectedFavoriteCount</p>
+<p>Selected Product: @SelectedProduct</p>
+<div class="bg-info bg-opacity-10 border d-flex flex-wrap justify-content-evenly rounded-3">
+    @foreach (var prod in products)
+    {
+        <ProductComponent
+            Product="prod"
+            OnFavoriteUpdated="FavoriteCountUpdate"
+            OnProductSelected="ToggleSelected">
+            <FragmentOne>#1</FragmentOne>
+            <FragmentTwo>#2</FragmentTwo>
+        </ProductComponent>
+    }
+</div>
+
+@code {
+    
+      List<Product> products = new();
+      private int SelectedFavoriteCount { get; set; } = 0;
+
+      protected void FavoriteCountUpdate(bool isFavorite)
+      {
+          if (isFavorite)
+          {
+              SelectedFavoriteCount++;
+          }
+          else
+          {
+              SelectedFavoriteCount--;
+          }
+      }
+
+      private string SelectedProduct { get; set; }
+
+      protected void ToggleSelected(string productName)
+      {
+          SelectedProduct = productName;
+      }
+
+      protected override void OnInitialized()
+      {
+          products.Add(new Product()
+          {
+              id = 1,
+              name = "Blue Flower Dice",
+              price = 10.99,
+              isActive = false,
+              ProductProperties = new List<ProductProperties>()
+              {
+                  new ProductProperties { id = 1, key = "Color", value = "Clear" },
+                  new ProductProperties { id = 2, key = "Material", value = "Resin" },
+                  new ProductProperties { id = 3, key = "Size", value = "Full set" }
+              }
+          });
+
+          products.Add(new()
+          {
+              id = 2,
+              name = "Basic Dice",
+              price = 13.99,
+              isActive = false,
+              ProductProperties = new()
+              {
+                  new ProductProperties { id = 1, key = "Color", value = "Red" },
+                  new ProductProperties { id = 2, key = "Material", value = "PLA" },
+                  new ProductProperties { id = 3, key = "Size", value = "6d6" }
+              }
+          });
+
+          products.Add(new()
+          {
+              id = 3,
+              name = "Forest Dice",
+              price = 13.99,
+              isActive = false,
+              ProductProperties = new()
+              {
+                  new ProductProperties { id = 1, key = "Color", value = "Clear" },
+                  new ProductProperties { id = 2, key = "Material", value = "Resin" },
+                  new ProductProperties { id = 3, key = "Size", value = "Full set" }
+              }
+          });
+
+          products.Add(new()
+          {
+              id = 4,
+              name = "Opalite Gemstone Dice",
+              price = 13.99,
+              isActive = false,
+              ProductProperties = new()
+              {
+                  new ProductProperties { id = 1, key = "Color", value = "Transleucent" },
+                  new ProductProperties { id = 2, key = "Material", value = "Opalite" },
+                  new ProductProperties { id = 3, key = "Size", value = "d20" }
+              }
+          });
+      }
+
+}

@@ -1,0 +1,219 @@
+@page "/learnBlazor/bindProp"
+@rendermode InteractiveServer
+
+
+<PageTitle>Bind Properties</PageTitle>
+<h1>BindProp</h1>
+@foreach (var product in products)
+{
+    if (product.isActive)
+    {
+        <h2 class="text-success">Product @product.id</h2>
+        <div class="row">
+            <div class="col-6 border p-2">
+                <h3 class="text-primary">Product Summary</h3><hr/>
+                <p>Name: @product.name<br/></p>
+                <p>Price: @product.price<br/></p>
+                <p>This product is @(product.isActive ? "active" : "inactive") <br/></p>
+                @if (selectedColor.ContainsKey(product.id) || selectedMaterial.ContainsKey(product.id) || selectedSize.ContainsKey(product.id))
+                {
+                    <p class="text-primary pt-3">
+                        <h4>Selected Properties: <hr/></h4>
+                        @if (selectedColor.ContainsKey(product.id))
+                        {
+                            <li class="list-unstyled text-black">
+                                Color: @selectedColor[product.id]
+                            </li>
+                        }
+                        @if (selectedMaterial.ContainsKey(product.id))
+                        {
+                            <li class="list-unstyled text-black">
+                                Material: @selectedMaterial[product.id]
+                            </li>
+                        }
+                        @if (selectedSize.ContainsKey(product.id))
+                        {
+                            <li class="list-unstyled text-black">
+                                Size: @selectedSize[product.id]
+                            </li>
+                        }
+                    </p>
+                }
+
+            </div>
+            <div class="col-6 border p-2">
+                <h3 class="text-primary">Edit Product</h3><hr/>
+                <p>Name: <input type="text" @bind="product.name" @bind:event="oninput"></p>
+                <p>Price: <input type="number" @bind="@product.price" @bind:event="oninput"/><br/></p>
+                <p class="text-primary pt-3">Product Properties:</p>
+                <div class="col-3">
+                    @foreach (var group in product.ProductProperties.GroupBy(p => p.key))
+                    {
+                        <select class="mb-2" @onchange="@(e => HandlePropertySelection(e, product.id, group.Key, e.Value.ToString()))">
+                            <option value="">-- Select @group.Key --</option>
+                            @foreach (var prop in group)
+                            {
+                                <option value="@prop.value">@prop.value</option>
+                            }
+                        </select>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3 class="text-success pt-4">Product Table</h3>
+        <table class="table table-striped">
+            <tbody>
+            @foreach (var prod in products)
+            {
+                <tr>
+                    <td>
+                        <p>Name: @prod.name</p>
+                    </td>
+                    <td>
+                        <p>Price: @prod.price</p>
+                    </td>
+                    <td>
+                        <p>Active: </p>
+                        <input type="checkbox" @bind="prod.isActive">
+                    </td>
+                </tr>
+            }
+            
+            </tbody>
+        </table>
+
+        <h3 class="text-success pt-4">Product Summary</h3>
+
+        @foreach (var prod in products)
+        {
+            <p class="border p-3">@prod.name [@prod.price] is @(prod.isActive ? "active" : "inactive")
+            @if (selectedColor.ContainsKey(prod.id) || selectedMaterial.ContainsKey(prod.id) || selectedSize.ContainsKey(prod.id))
+            {
+                <p>
+                    Selected Properties: [
+                    @if (selectedColor.ContainsKey(prod.id))
+                    {
+                        <span class="selected-property">Color: @selectedColor[prod.id] | </span>
+                    }
+                    @if (selectedMaterial.ContainsKey(prod.id))
+                    {
+                        <span class="selected-property">Material: @selectedMaterial[prod.id] | </span>
+                    }
+                    @if (selectedSize.ContainsKey(prod.id))
+                    {
+                        <span class="selected-property">Size: @selectedSize[prod.id]</span>
+                    }
+               ] </p>
+            }
+        </p>
+        }
+    </div>
+</div>
+
+@code {
+
+    private Dictionary<int, string> selectedColor = new Dictionary<int, string>();
+    private Dictionary<int, string> selectedMaterial = new Dictionary<int, string>();
+    private Dictionary<int, string> selectedSize = new Dictionary<int, string>();
+
+    private void HandlePropertySelection(ChangeEventArgs e, int productID, string key, string value)
+    {
+        switch (key)
+        {
+            case "Color":
+                selectedColor[productID] = value;
+                break;
+            case "Material":
+                selectedMaterial[productID] = value;
+                break;
+            case "Size":
+                selectedSize[productID] = value;
+                break;
+        }
+    }
+    
+    List<Product> products = new();
+
+    protected override void OnInitialized()
+    {
+        products.Add(new Product()
+        {
+            id = 1,
+            name = "Blue Flower Dice",
+            price = 10.99,
+            isActive = true,
+            ProductProperties = new List<ProductProperties>()
+            {
+                new ProductProperties { id = 1, key = "Color", value = "Clear" },
+                new ProductProperties { id = 2, key = "Material", value = "Resin" },
+                new ProductProperties { id = 3, key = "Size", value = "d20" },
+                new ProductProperties { id = 3, key = "Size", value = "6d6" },
+                new ProductProperties { id = 3, key = "Size", value = "Full set" },
+            }
+        });
+        
+        products.Add(new()
+        {
+            id = 2,
+            name = "Basic Dice",
+            price = 13.99,
+            isActive = false,
+            ProductProperties = new()
+            {
+                new ProductProperties { id = 1, key = "Color", value = "Red" },
+                new ProductProperties { id = 2, key = "Color", value = "Blue" },
+                new ProductProperties { id = 3, key = "Color", value = "Green" },
+                new ProductProperties { id = 4, key = "Color", value = "Red" },
+                new ProductProperties { id = 5, key = "Color", value = "Black" },
+                new ProductProperties { id = 6, key = "Color", value = "Orange" },
+                new ProductProperties { id = 7, key = "Material", value = "Resin" },
+                new ProductProperties { id = 8, key = "Material", value = "Silicone" },
+                new ProductProperties { id = 9, key = "Material", value = "PLA" },
+                new ProductProperties { id = 10, key = "Size", value = "d20" },
+                new ProductProperties { id = 11, key = "Size", value = "6d6" },
+                new ProductProperties { id = 12, key = "Size", value = "Full set" }
+            }
+        });
+
+        products.Add(new()
+        {
+            id = 3,
+            name = "Forest Dice",
+            price = 13.99,
+            isActive = false,
+            ProductProperties = new()
+            {
+                new ProductProperties { id = 1, key = "Color", value = "Clear" },
+                new ProductProperties { id = 2, key = "Material", value = "Resin" },
+                new ProductProperties { id = 3, key = "Size", value = "d20" },
+                new ProductProperties { id = 4, key = "Size", value = "6d6" },
+                new ProductProperties { id = 5, key = "Size", value = "Full set" }
+            }
+        });
+
+        products.Add(new()
+        {
+            id = 4,
+            name = "Opalite Gemstone Dice",
+            price = 13.99,
+            isActive = false,
+            ProductProperties = new()
+            {
+                new ProductProperties { id = 1, key = "Color", value = "Transleucent" },
+                new ProductProperties { id = 2, key = "Material", value = "Opalite" },
+                new ProductProperties { id = 3, key = "Size", value = "d20" },
+                new ProductProperties { id = 4, key = "Size", value = "6d6" },
+                new ProductProperties { id = 5, key = "Size", value = "Full set" }
+            }
+        });
+
+        
+    }
+
+
+}

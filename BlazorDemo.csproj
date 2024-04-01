@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DemoModels\DemoModels\Class1.cs" />
+    <Compile Remove="DemoModels\BlazorModels\Class1.cs" />
+    <Compile Remove="Components\Pages\DemoProducts.cs" />
+    <Compile Remove="Components\Pages\LifeCycle.cshtml.cs" />
+    <Compile Remove="BlazorDemo_Business\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Components\Pages\Counter.razor" />
+    <Content Remove="Components\Pages\Weather.razor" />
+    <Content Remove="wwwroot\js\snackbar.js" />
+    <Content Remove="Components\Pages\LifeCycle.cshtml" />
+    <Content Remove="BlazorDemo_Business\**" />
+    <Content Remove="wwwroot\assets\product\a31dea45-a1ef-48a1-b75f-411609f57617.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.2.24128.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0-preview.2.24128.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-preview.2.24128.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.2.24128.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="25.1.37" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="25.1.37" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="25.1.37" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="BlazorDemo_Business\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="BlazorDemo_Business\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\product\" />
+  </ItemGroup>
+
+</Project>
