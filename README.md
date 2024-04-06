@@ -1,4 +1,5 @@
 # BlazorDemo
+ATTENTION: This is the older version of the project, I have fixed the project structure, added an API, and will continue to work on the WASM portion of the demo [HERE!](https://github.com/YB-BigSwan/BlazorShop)
 
 This is a Blazor Web Server e-commerce application I am working on to learn Blazor/.NET! It's pretty basic at the moment, but I plan on finishing and polishing up the Web Server admin panel, then creating a Blazor WASM storefront. It is not currently hosted anywhere, so if you want to check it out, follow the installation instructions below.
 
